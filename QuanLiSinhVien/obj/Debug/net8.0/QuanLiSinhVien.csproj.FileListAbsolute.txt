@@ -1,0 +1,14 @@
+E:\BE\QuanLiSinhVien\bin\Debug\net8.0\QuanLiSinhVien.exe
+E:\BE\QuanLiSinhVien\bin\Debug\net8.0\QuanLiSinhVien.deps.json
+E:\BE\QuanLiSinhVien\bin\Debug\net8.0\QuanLiSinhVien.runtimeconfig.json
+E:\BE\QuanLiSinhVien\bin\Debug\net8.0\QuanLiSinhVien.dll
+E:\BE\QuanLiSinhVien\bin\Debug\net8.0\QuanLiSinhVien.pdb
+E:\BE\QuanLiSinhVien\obj\Debug\net8.0\QuanLiSinhVien.GeneratedMSBuildEditorConfig.editorconfig
+E:\BE\QuanLiSinhVien\obj\Debug\net8.0\QuanLiSinhVien.AssemblyInfoInputs.cache
+E:\BE\QuanLiSinhVien\obj\Debug\net8.0\QuanLiSinhVien.AssemblyInfo.cs
+E:\BE\QuanLiSinhVien\obj\Debug\net8.0\QuanLiSinhVien.csproj.CoreCompileInputs.cache
+E:\BE\QuanLiSinhVien\obj\Debug\net8.0\QuanLiSinhVien.dll
+E:\BE\QuanLiSinhVien\obj\Debug\net8.0\refint\QuanLiSinhVien.dll
+E:\BE\QuanLiSinhVien\obj\Debug\net8.0\QuanLiSinhVien.pdb
+E:\BE\QuanLiSinhVien\obj\Debug\net8.0\QuanLiSinhVien.genruntimeconfig.cache
+E:\BE\QuanLiSinhVien\obj\Debug\net8.0\ref\QuanLiSinhVien.dll
