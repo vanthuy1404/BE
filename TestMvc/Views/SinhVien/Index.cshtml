@@ -1,0 +1,28 @@
+@model List<SinhVien>
+<h2>Danh sách sinh Viên</h2>
+<table>
+    <thead>
+        <tr>
+            <td>Mã Sinh Viên</td>
+            <td>Tên Sinh Viên</td>
+            <td>Tuổi</td>
+            <td>Thao tác</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach(var sv in Model){
+                <tr>
+                    <td>@sv.MaSV</td>
+                    <td>@sv.TenSV</td>
+                    <td>@sv.Tuoi</td>
+                    <td><a href="/SinhVien/Edit/@sv.MaSV">Sửa</a>
+                        <a href="#">Xóa</a>
+                    </td>
+                </tr>
+                
+                
+            }
+        }
+    </tbody>
+</table>

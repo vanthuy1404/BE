@@ -1,0 +1,17 @@
+syntax = "proto3";
+option csharp_namespace = "GrpcCalculatorServer";
+package calculator;
+service Calculator {
+  rpc Add (TwoNumberRequest) returns (AddReply);
+  rpc Subtract (TwoNumberRequest) returns (SubtractReply);
+}
+message TwoNumberRequest {
+  double first_number = 1;
+  double second_number = 2;
+}
+message AddReply {
+  double result = 1;
+}
+message SubtractReply {
+  double result = 1;
+}

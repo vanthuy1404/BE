@@ -1,0 +1,14 @@
+@model SinhVien
+@if (Model == null)
+{
+    <p style="color:red">Model null!</p>
+}
+else
+{
+    <form method="post">
+        <input type="hidden" name="Id" value="@Model.MaSV" />
+        <p>Tên: <input name="Ten" value="@Model.TenSV" /></p>
+        <p>Tuổi: <input name="Tuoi" value="@Model.Tuoi" /></p>
+        <button type="submit">Lưu</button>
+    </form>
+}
