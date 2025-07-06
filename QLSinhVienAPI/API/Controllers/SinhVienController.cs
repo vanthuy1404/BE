@@ -38,16 +38,16 @@ namespace API.Controllers
             return Ok(response);
         }
         [HttpPost]
-        public async Task<ActionResult<SinhVien>> CreateSinhVien(SinhVien sinhVien)
+        public async Task<ActionResult<SinhVien>> CreateSinhVien([FromBody]SinhVien sinhVien)
         {
             var createdSV = await _sinhVienService.CreateSinhVienAsync(sinhVien);
             var response = new BaseResponse<SinhVien>(createdSV, "Đã tạo thành công", true);
             return CreatedAtAction(nameof(GetSinhVienById), new { maSV = createdSV.MaSV }, response);
         }
-        [HttpPut("{maSV}")]
-        public async Task<ActionResult<BaseResponse<SinhVien>>> UpdateSinhVien(int maSV, SinhVien sinhVien)
+        [HttpPut]
+        public async Task<ActionResult<BaseResponse<SinhVien>>> UpdateSinhVien([FromBody]SinhVien sinhVien)
         {
-            SinhVien sv = await _sinhVienService.UpdateSinhVienAsync(maSV, sinhVien);
+            SinhVien sv = await _sinhVienService.UpdateSinhVienAsync(sinhVien);
             var response = new BaseResponse<SinhVien>(sv, "Đã cập nhật", true);
             return Ok(response);
         }
@@ -56,6 +56,11 @@ namespace API.Controllers
         {
             var isDeleted = await _sinhVienService.DeleteSinhVienAsync(maSV);
             return Ok(new BaseResponse<bool>(true, "Đã cập nhật", true));
+        }
+        [HttpGet("test-exception")]
+        public ActionResult TestException()
+        {
+            throw new ArgumentNullException("This is a test exception");
         }
 
 

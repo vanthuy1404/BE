@@ -1,4 +1,5 @@
 using API.Data;
+using API.Models;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SinhVienDbContext>(options=>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ISinhVienService, SinhVienService>();
+builder.Services.AddScoped<IKhoaService, KhoaService>();
+
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        builder => builder
+            .AllowAnyOrigin()           
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+    );
+});
+
 
 var app = builder.Build();
 
@@ -23,6 +36,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseExceptionHandler("/error");
 app.UseRouting();
+app.UseCors("AllowFrontend");
 app.MapControllers();
 app.Run();

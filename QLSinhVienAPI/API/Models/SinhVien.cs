@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Models
 {
@@ -13,6 +14,7 @@ namespace API.Models
         public string GioiTinh { get; set; }
         [ForeignKey("Khoa")]
         public string MaKhoa { get; set; }
+        [JsonIgnore]
         public Khoa Khoa { get; set; }
         public SinhVien() { }
         public SinhVien(int maSV, string tenSV, DateTime ngaySinh, string gioiTinh, string maKhoa)

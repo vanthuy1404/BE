@@ -52,7 +52,6 @@ namespace API.Services
                 MaKhoa = sv.MaKhoa,
                 TenKhoa = sv.Khoa.TenKhoa
             }).ToListAsync();
-            // Danh sách rỗng có thể do db không có dữ liệu => không phải lỗi hoàn toàn do API
             return dsSinhVien;
         }
 
@@ -78,20 +77,20 @@ namespace API.Services
             };
         }
 
-        public async Task<SinhVien> UpdateSinhVienAsync(int maSV, SinhVien sinhVien)
+        public async Task<SinhVien> UpdateSinhVienAsync(SinhVien sinhVien)
         {
-            if (maSV <= 0)
+            if (sinhVien.MaSV <= 0)
             {
-                throw new ArgumentException("Invalid MaSV", nameof(maSV));
+                throw new ArgumentException("Invalid MaSV", nameof(sinhVien.MaSV));
             }
             if (sinhVien == null)
             {
                 throw new ArgumentNullException(nameof(sinhVien), "Sinh Vien không đc null");
             }
-            var existingSinhVien = await _context.dsSinhVien.FindAsync(maSV);
+            var existingSinhVien = await _context.dsSinhVien.FindAsync(sinhVien.MaSV);
             if (existingSinhVien == null)
             {
-                throw new KeyNotFoundException($"Sinh Vien with MaSV {maSV} not found");
+                throw new KeyNotFoundException($"Sinh Vien with MaSV {sinhVien.MaSV} not found");
             }
             existingSinhVien.TenSV = sinhVien.TenSV;
             existingSinhVien.NgaySinh = sinhVien.NgaySinh;

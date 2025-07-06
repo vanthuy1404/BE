@@ -11,6 +11,7 @@ namespace API.Data
         }
 
         public DbSet<SinhVien> dsSinhVien { get; set; }
+        public DbSet<Khoa> dsKhoa { get; set; }
 
     }
 }
