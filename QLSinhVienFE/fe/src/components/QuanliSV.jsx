@@ -6,9 +6,11 @@ function QuanliSV() {
   const [searchText, setSearchText] = useState("");
   const [khoa, setKhoa] = useState([]);
   const [tenSV, setTenSV] = useState("");
+  const [maSV, setMaSV] = useState(0);
   const [ngaySinh, setNgaySinh] = useState("");
-  const [gioiTinh, setGioiTinh] = useState("");
-  const [maKhoa, setMaKhoa] = useState("");
+  const [gioiTinh, setGioiTinh] = useState("Nam");
+  const [maKhoa, setMaKhoa] = useState("CNTT");
+  const [alert, setAlert] = useState({ show: false, type: "", message: "" });
 
   const API_URL = import.meta.env.VITE_API_URL;
   function fetchSinhVien() {
@@ -50,35 +52,132 @@ function QuanliSV() {
     setDsHienThi(filteredData);
   };
   function clearForm() {
+    setMaSV(0);
     setTenSV("");
     setNgaySinh("");
-    setGioiTinh("");
-    setMaKhoa("");
+    setGioiTinh("Nam");
+    setMaKhoa("CNTT");
   }
-  const handleCreateSinhVien = () =>{
-    console.log("Tên SV:", tenSV);
-    console.log("Ngày sinh:", ngaySinh);
-    console.log("Giới tính:", gioiTinh);
-    console.log("Mã Khoa:", maKhoa);
-    axios.post(`${API_URL}/SinhVien`, {
-      tenSV: tenSV,
-      ngaySinh: ngaySinh,
-      gioiTinh: gioiTinh,
-      maKhoa: maKhoa,
-    }).then((response) => {
-      console.log("Thêm sinh viên thành công:", response.data);
-      fetchSinhVien();
-      clearForm(); 
-    }).catch((err) => {
-      console.error("Lỗi khi thêm sinh viên:", err);
-    });
-      
-    
+  const handleCreateSinhVien = () => {
+    if (!tenSV || !ngaySinh) {
+      setAlert({
+        show: true,
+        type: "danger",
+        message: "Tên sinh viên và ngày sinh không được để trống!",
+      });
+      setTimeout(() => setAlert({ show: false, type: "", message: "" }), 3000);
+      return;
+    }
+    axios
+      .post(`${API_URL}/SinhVien`, {
+        tenSV: tenSV,
+        ngaySinh: ngaySinh,
+        gioiTinh: gioiTinh,
+        maKhoa: maKhoa,
+      })
+      .then((response) => {
+        setAlert({
+          show: true,
+          type: "success",
+          message: "Thêm sinh viên thành công!",
+        });
+        fetchSinhVien();
+        clearForm();
+        setTimeout(
+          () => setAlert({ show: false, type: "", message: "" }),
+          3000
+        );
+      })
+      .catch((err) => {
+        setAlert({
+          show: true,
+          type: "danger",
+          message: "Thêm sinh viên thất bại!",
+        });
+        setTimeout(
+          () => setAlert({ show: false, type: "", message: "" }),
+          3000
+        );
+      });
+  };
+  const handleUpdateSinhVien = () => {
+    if (!tenSV || !ngaySinh) {
+      setAlert({
+        show: true,
+        type: "danger",
+        message: "Tên sinh viên và ngày sinh không được để trống!",
+      });
+      setTimeout(() => setAlert({ show: false, type: "", message: "" }), 3000);
+      return;
+    }
+    axios
+      .put(`${API_URL}/SinhVien`, {
+        maSV: maSV,
+        tenSV: tenSV,
+        ngaySinh: ngaySinh,
+        gioiTinh: gioiTinh,
+        maKhoa: maKhoa,
+      })
+      .then((response) => {
+        setAlert({
+          show: true,
+          type: "success",
+          message: "Cập nhật sinh viên thành công!",
+        });
+        fetchSinhVien();
+        clearForm();
+        setTimeout(
+          () => setAlert({ show: false, type: "", message: "" }),
+          3000
+        );
+      })
+      .catch((err) => {
+        setAlert({
+          show: true,
+          type: "danger",
+          message: "Cập nhật sinh viên thất bại!",
+        });
+        setTimeout(
+          () => setAlert({ show: false, type: "", message: "" }),
+          3000
+        );
+      });
   }
+  const handleDeleteSinhVien = (maSV) => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa sinh viên này?")) {
+      axios
+        .delete(`${API_URL}/SinhVien/${maSV}`)
+        .then((response) => {
+          setAlert({
+            show: true,
+            type: "success",
+            message: "Xóa sinh viên thành công!",
+          });
+          fetchSinhVien();
+          setTimeout(
+            () => setAlert({ show: false, type: "", message: "" }),
+            3000
+          );
+        })
+        .catch((err) => {
+          setAlert({
+            show: true,
+            type: "danger",
+            message: "Xóa sinh viên thất bại!",
+          });
+          setTimeout(
+            () => setAlert({ show: false, type: "", message: "" }),
+            3000
+          );
+        });
+    }
+  }
+
   return (
     <>
       <div className="container">
         <h2 className="text-center mt-3">Quản lí sinh viên</h2>
+
         <div
           className="d-flex justify-content-center align-items-center mt-3"
           style={{ gap: "8px" }}
@@ -134,10 +233,18 @@ function QuanliSV() {
                     <button
                       className="btn btn-dark"
                       style={{ marginRight: "5px" }}
+                      onClick={() => {
+                        setMaSV(sv.maSV);
+                        setTenSV(sv.tenSV);
+                        setNgaySinh(sv.ngaySinh.slice(0, 10)); // format yyyy-mm-dd
+                        setGioiTinh(sv.gioiTinh);
+                        setMaKhoa(sv.maKhoa);
+                        
+                      }}
                     >
                       Sửa
                     </button>
-                    <button className="btn btn-danger">Xóa</button>
+                    <button className="btn btn-danger" onClick={(maSV)=> handleDeleteSinhVien(sv.maSV)}>Xóa</button>
                   </td>
                 </tr>
               ))
@@ -145,6 +252,14 @@ function QuanliSV() {
           </tbody>
         </table>
         <h2 className="text-center mt-3">Thao tác với sinh viên</h2>
+        {alert.show && (
+          <div
+            className={`alert alert-${alert.type} alert-dismissible fade show mt-3`}
+            role="alert"
+          >
+            {alert.message}
+          </div>
+        )}
         <form className="row g-3 mt-2">
           <div className="col-md-6">
             <label htmlFor="maSV" className="form-label">
@@ -156,6 +271,7 @@ function QuanliSV() {
               id="maSV"
               placeholder="Mã sinh viên"
               readOnly
+              value={maSV}
             />
           </div>
           <div className="col-md-6">
@@ -168,6 +284,7 @@ function QuanliSV() {
               id="tenSV"
               value={tenSV}
               placeholder="Nhập tên sinh viên"
+              required
               onChange={(e) => setTenSV(e.target.value)}
             />
           </div>
@@ -180,6 +297,7 @@ function QuanliSV() {
               className="form-control"
               id="ngaySinh"
               value={ngaySinh}
+              required
               onChange={(e) => setNgaySinh(e.target.value)}
             />
           </div>
@@ -218,8 +336,16 @@ function QuanliSV() {
             className="col-12 d-flex justify-content-center align-items-center mb-5"
             style={{ gap: "10px" }}
           >
-            <button type="button" className="btn btn-success" onClick={()=> handleCreateSinhVien()}>Thêm sinh viên</button>
-            <button type = "button" className="btn btn-dark">Sửa sinh viên</button>
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={() => handleCreateSinhVien()}
+            >
+              Thêm sinh viên
+            </button>
+            <button type="button" className="btn btn-dark" onClick={() => handleUpdateSinhVien()}>
+              Cập nhật
+            </button>
           </div>
         </form>
       </div>

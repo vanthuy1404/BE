@@ -38,14 +38,18 @@ namespace API.Controllers
             return Ok(response);
         }
         [HttpPost]
-        public async Task<ActionResult<SinhVien>> CreateSinhVien([FromBody]SinhVien sinhVien)
+        public async Task<ActionResult<BaseResponse<SinhVien>>> CreateSinhVien([FromBody] SinhVienCreateDTO sinhVien)
         {
             var createdSV = await _sinhVienService.CreateSinhVienAsync(sinhVien);
+            if (createdSV == null)
+            {
+                return BadRequest(new BaseResponse<SinhVien>(null, "Tạo sinh viên thất bại", false));
+            }
             var response = new BaseResponse<SinhVien>(createdSV, "Đã tạo thành công", true);
             return CreatedAtAction(nameof(GetSinhVienById), new { maSV = createdSV.MaSV }, response);
         }
         [HttpPut]
-        public async Task<ActionResult<BaseResponse<SinhVien>>> UpdateSinhVien([FromBody]SinhVien sinhVien)
+        public async Task<ActionResult<BaseResponse<SinhVien>>> UpdateSinhVien([FromBody]SinhVienUpdateDTO sinhVien)
         {
             SinhVien sv = await _sinhVienService.UpdateSinhVienAsync(sinhVien);
             var response = new BaseResponse<SinhVien>(sv, "Đã cập nhật", true);

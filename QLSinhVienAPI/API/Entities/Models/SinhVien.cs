@@ -8,6 +8,7 @@ namespace API.Models
     public class SinhVien
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
         public int MaSV { get; set; }
         public string TenSV { get; set; }
         public DateTime NgaySinh { get; set; }

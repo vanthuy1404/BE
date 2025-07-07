@@ -8,8 +8,8 @@ namespace API.Services
     {
         Task<IEnumerable<SinhVienDTO>> GetAllSinhVienAsync();
         Task<SinhVienDTO> GetSinhVienByIdAsync(int maSV);
-        Task<SinhVien> CreateSinhVienAsync(SinhVien sinhVien);
-        Task<SinhVien> UpdateSinhVienAsync(SinhVien sinhVien);
+        Task<SinhVien> CreateSinhVienAsync(SinhVienCreateDTO sinhVien);
+        Task<SinhVien> UpdateSinhVienAsync(SinhVienUpdateDTO sinhVien);
         Task<bool> DeleteSinhVienAsync(int maSV);
     }
 }

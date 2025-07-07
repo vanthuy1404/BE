@@ -12,15 +12,25 @@ namespace API.Services
         {
             _context = context;
         }
-        public async Task<SinhVien> CreateSinhVienAsync(SinhVien sinhVien)
+      
+
+        // Implementation for ISinhVienService.CreateSinhVienAsync(SinhVienCreateDTO)
+        public async Task<SinhVien> CreateSinhVienAsync(SinhVienCreateDTO sinhVienCreateDto)
         {
-            if (sinhVien == null)
+            if (sinhVienCreateDto == null)
             {
-                throw new ArgumentNullException(nameof(sinhVien), "Sinh Vien không đc null");
+                throw new ArgumentNullException(nameof(sinhVienCreateDto), "Sinh Vien không đc null");
             }
-            await _context.dsSinhVien.AddAsync(sinhVien);
+            var newSinhVien = new SinhVien
+            {
+                TenSV = sinhVienCreateDto.TenSV,
+                NgaySinh = sinhVienCreateDto.NgaySinh,
+                GioiTinh = sinhVienCreateDto.GioiTinh,
+                MaKhoa = sinhVienCreateDto.MaKhoa
+            };
+            await _context.dsSinhVien.AddAsync(newSinhVien);
             await _context.SaveChangesAsync();
-            return sinhVien;
+            return newSinhVien;
         }
 
         public async Task<bool> DeleteSinhVienAsync(int maSV)
@@ -77,7 +87,7 @@ namespace API.Services
             };
         }
 
-        public async Task<SinhVien> UpdateSinhVienAsync(SinhVien sinhVien)
+        public async Task<SinhVien> UpdateSinhVienAsync(SinhVienUpdateDTO sinhVien)
         {
             if (sinhVien.MaSV <= 0)
             {
@@ -98,7 +108,7 @@ namespace API.Services
             existingSinhVien.MaKhoa = sinhVien.MaKhoa;
 
             await _context.SaveChangesAsync();
-            return sinhVien;
+            return existingSinhVien;
         }
     }
 }
