@@ -50,6 +50,7 @@ namespace API.Controllers
             var response = new BaseResponse<SinhVien>(createdSV, "Đã tạo thành công", true);
             return CreatedAtAction(nameof(GetSinhVienById), new { maSV = createdSV.MaSV }, response);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<ActionResult<BaseResponse<SinhVien>>> UpdateSinhVien([FromBody]SinhVienUpdateDTO sinhVien)
         {
@@ -57,6 +58,7 @@ namespace API.Controllers
             var response = new BaseResponse<SinhVien>(sv, "Đã cập nhật", true);
             return Ok(response);
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{maSV}")]
         public async Task<ActionResult<BaseResponse<bool>>> DeleteSinhVien(int maSV)
         {
