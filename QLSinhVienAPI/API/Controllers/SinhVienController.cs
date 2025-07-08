@@ -1,6 +1,7 @@
 using API.DTOs;
 using API.Models;
 using API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -32,11 +33,12 @@ namespace API.Controllers
             SinhVienDTO sv = await _sinhVienService.GetSinhVienByIdAsync(maSV);
             if (sv == null)
             {
-                return NotFound(new BaseResponse<IEnumerable<SinhVienDTO>>(null, "Danh sách rỗng", false));
+                return NotFound(new BaseResponse<SinhVienDTO>(null, "Danh sách rỗng", false));
             }
             var response = new BaseResponse<SinhVienDTO>(sv, $"Lấy sinh viên có mã Sinh Viên {maSV} thành công", true);
             return Ok(response);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<BaseResponse<SinhVien>>> CreateSinhVien([FromBody] SinhVienCreateDTO sinhVien)
         {
